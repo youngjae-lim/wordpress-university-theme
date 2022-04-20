@@ -17,8 +17,11 @@
     <div class="container container--narrow page-section">
         <div>
             <?php
+                // If the current page has a parent, $theParent will be a parent id.
+                // Otherwise, it will be zero(false).
                 $theParent = wp_get_post_parent_id(get_the_ID());
-                // Show breadcrumb for child pages only
+
+                // Show breadcrumb for children pages only
                 if ($theParent) { ?>
                     <div class="metabox metabox--position-up metabox--with-home-link">
                         <p>
@@ -35,6 +38,7 @@
         'child_of' => get_the_ID()
     ));
 
+    // Show page links for any pages with parent-child relationship only.
     if ($theParent or $hasChild) { ?>
       <div class="page-links">
         <h2 class="page-links__title"><a href="<?php echo get_permalink($theParent); ?>"><?php echo get_the_title($theParent); ?></a></h2>
