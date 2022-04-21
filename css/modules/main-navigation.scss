@@ -8,7 +8,7 @@
 
   ul:before,
   ul:after {
-    content: " ";
+    content: ' ';
     display: table;
   }
 
@@ -46,4 +46,5 @@
 .main-navigation .current-menu-item a,
 .main-navigation a:hover {
   color: $beige;
+  border-bottom: 2px solid $beige;
 }

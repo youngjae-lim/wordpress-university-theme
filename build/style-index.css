@@ -872,7 +872,7 @@ body.login {
 .main-navigation .current-menu-item a,
 .main-navigation a:hover {
   color: #faf0ca;
-  border-bottom: 2px solid yellow;
+  border-bottom: 2px solid #faf0ca;
 }
 .page-banner {
   background-color: #000;
