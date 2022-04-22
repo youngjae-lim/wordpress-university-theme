@@ -82,23 +82,9 @@
                     echo '<h2 class="headline headline--medium">Upcoming ' . get_the_title() . ' Event(s)</h2>';
 
                     while($upcomingEvents->have_posts()) {
-                        $upcomingEvents->the_post(); ?>
-                        <div class="event-summary">
-                            <a class="event-summary__date event-summary__date--blue t-center" href="<?php the_permalink(); ?>">
-                            <span class="event-summary__month"><?php
-                                $eventDate = new DateTime(get_field('event_date'));
-                                echo $eventDate->format('M');
-                            ?></span>
-                            <span class="event-summary__day"><?php
-                                echo $eventDate->format('d');
-                            ?></span>
-                            </a>
-                            <div class="event-summary__content">
-                            <h5 class="event-summary__title headline headline--tiny"><a href="<?php the_permalink(); ?>"><?php the_title(); ?></a></h5>
-                            <p><?php echo wp_trim_words(get_the_excerpt(), 18); ?> <a href="<?php the_permalink(); ?>" class="nu gray">Read more</a></p>
-                            </div>
-                        </div>
-                    <?php } wp_reset_postdata();
+                        $upcomingEvents->the_post();
+                        get_template_part('template-parts/content-event');
+                    } wp_reset_postdata();
                 }
                 ?>
         </div>
