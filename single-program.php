@@ -26,7 +26,7 @@
             <?php
                 $today = date('Ymd');
                 $upcomingEvents = new WP_Query(array(
-                    'posts_per_page' => 2,
+                    'posts_per_page' => -1, // all posts
                     'post_type' => 'event',
                     'meta_key' => 'event_date',
                     'orderby' => 'meta_value_num',
