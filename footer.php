@@ -59,6 +59,7 @@
       </div>
     </footer>
 
+    <!-- Live Search Bar -->
     <div class="search-overlay">
       <div class="search-overlay__top">
         <div class="container">
@@ -66,6 +67,10 @@
           <input type="text" class="search-term" autocomplete="off" placeholder="What are your looking for?" id="search-term">
           <i class="fa fa-window-close search-overlay__close" aria-hidden="true"></i>
         </div>
+      </div>
+
+      <div class="container">
+        <div id="search-overlay__results"></div>
       </div>
     </div>
 
