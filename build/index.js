@@ -4074,8 +4074,10 @@ class Search {
     this.openButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.js-search-trigger');
     this.closeButton = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.search-overlay__close');
     this.searchOverlay = jquery__WEBPACK_IMPORTED_MODULE_0___default()('.search-overlay');
+    this.searchField = jquery__WEBPACK_IMPORTED_MODULE_0___default()('#search-term');
     this.events();
     this.isOverlayOpen = false;
+    this.typingTimer;
   } // 2. Events
 
 
@@ -4083,6 +4085,7 @@ class Search {
     this.openButton.on('click', this.openOverlay.bind(this));
     this.closeButton.on('click', this.closeOverlay.bind(this));
     jquery__WEBPACK_IMPORTED_MODULE_0___default()(document).on('keydown', this.keyPressDispatch.bind(this));
+    this.searchField.on('keydown', this.typingLogic.bind(this));
   } // 3. Methods (functions, action...)
 
 
@@ -4108,6 +4111,13 @@ class Search {
     if (e.keyCode === 27 && this.isOverlayOpen) {
       this.closeOverlay();
     }
+  }
+
+  typingLogic() {
+    clearTimeout(this.typingTimer);
+    this.typingTimer = setTimeout(function () {
+      console.log('timer');
+    }, 2000);
   }
 
 }

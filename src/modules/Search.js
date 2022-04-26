@@ -6,8 +6,10 @@ class Search {
     this.openButton = $('.js-search-trigger')
     this.closeButton = $('.search-overlay__close')
     this.searchOverlay = $('.search-overlay')
+    this.searchField = $('#search-term')
     this.events()
     this.isOverlayOpen = false
+    this.typingTimer
   }
 
   // 2. Events
@@ -15,6 +17,7 @@ class Search {
     this.openButton.on('click', this.openOverlay.bind(this))
     this.closeButton.on('click', this.closeOverlay.bind(this))
     $(document).on('keydown', this.keyPressDispatch.bind(this))
+    this.searchField.on('keydown', this.typingLogic.bind(this))
   }
 
   // 3. Methods (functions, action...)
@@ -40,6 +43,13 @@ class Search {
     if (e.keyCode === 27 && this.isOverlayOpen) {
       this.closeOverlay()
     }
+  }
+
+  typingLogic() {
+    clearTimeout(this.typingTimer)
+    this.typingTimer = setTimeout(function () {
+      console.log('timer')
+    }, 2000)
   }
 }
 
