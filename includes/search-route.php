@@ -8,7 +8,21 @@ function university_register_search() {
 }
 
 function university_search_results() {
-    return 'search result';
+    $professors = new WP_Query(array(
+        'post_type' => 'professor'
+    ));
+
+    $professorResults = array();
+
+    while($professors->have_posts()) {
+        $professors->the_post();
+        array_push($professorResults, array(
+            'title' => get_the_title(),
+            'permalink' => get_the_permalink()
+        ));
+    }
+
+    return $professorResults;
 }
 
 add_action('rest_api_init', 'university_register_search');
