@@ -34,6 +34,20 @@ function university_search_results($data) {
         }
 
         if (get_post_type() == 'professor') {
+            $relatedPrograms = get_field('related_programs');
+
+            if ($relatedPrograms) {
+                foreach($relatedPrograms as $program) {
+                    array_push($results['programs'], array(
+                        'title' => get_the_title($program),
+                        'permalink' => get_the_permalink($program)
+                    ));
+                }
+            }
+
+            // Delete any duplicate result that can occur when the related search result contains the same search keyword
+            $results['programs'] = array_values(array_unique($results['programs'], SORT_REGULAR));
+
             array_push($results['professors'], array(
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
@@ -42,14 +56,41 @@ function university_search_results($data) {
         }
 
         if (get_post_type() == 'program') {
+            $relatedCampuses = get_field('related_campuses');
+
+            if ($relatedCampuses) {
+                foreach($relatedCampuses as $campus) {
+                    array_push($results['campuses'], array(
+                        'title' => get_the_title($campus),
+                        'permalink' => get_the_permalink($campus)
+                    ));
+                }
+
+            }
+
             array_push($results['programs'], array(
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink(),
                 'id' => get_the_ID()
             ));
+
         }
 
         if (get_post_type() == 'event') {
+            $relatedPrograms = get_field('related_programs');
+
+            if ($relatedPrograms) {
+                foreach($relatedPrograms as $program) {
+                    array_push($results['programs'], array(
+                        'title' => get_the_title($program),
+                        'permalink' => get_the_permalink($program)
+                    ));
+                }
+            }
+
+            // Delete any duplicate result that can occur when the related search result contains the same search keyword
+            $results['programs'] = array_values(array_unique($results['programs'], SORT_REGULAR));
+
             $eventDate = new DateTime(get_field('event_date'));
             $description = wp_trim_words(get_the_excerpt(), 18);
             array_push($results['events'], array(
@@ -66,6 +107,9 @@ function university_search_results($data) {
                 'title' => get_the_title(),
                 'permalink' => get_the_permalink()
             ));
+
+            // Delete any duplicate result that can occur when the related search result contains the same search keyword
+            $results['campuses'] = array_values(array_unique($results['campuses'], SORT_REGULAR));
         }
 
     }
@@ -86,7 +130,7 @@ function university_search_results($data) {
 
         // Get professor(s) related to the program(s)
         $programRelationshipQuery = new WP_Query(array(
-            'post_type' => 'professor',
+            'post_type' => array('professor', 'event'),
             'meta_query' => $programsMetaQuery
             )
         );
@@ -103,11 +147,22 @@ function university_search_results($data) {
                 ));
             }
 
-
+            if (get_post_type() == 'event') {
+                $eventDate = new DateTime(get_field('event_date'));
+                $description = wp_trim_words(get_the_excerpt(), 18);
+                array_push($results['events'], array(
+                    'title' => get_the_title(),
+                    'permalink' => get_the_permalink(),
+                    'month' => $eventDate->format('M'),
+                    'day' => $eventDate->format('d'),
+                    'description' => $description
+                ));
+            }
         }
 
         // Delete any duplicate result that can occur when the related search result contains the same search keyword
         $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
+        $results['events'] = array_values(array_unique($results['events'], SORT_REGULAR));
     }
 
     return $results;

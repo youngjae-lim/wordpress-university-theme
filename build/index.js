@@ -4176,7 +4176,7 @@ class Search {
             ${results.campuses.length ? '</ul>' : ''}
 
             <h2 class='search-overlay__section-title'>Events</h2>
-            ${results.events.length ? '' : '<p>No event matches that search. <a href="${universityData.root_url}/events">View all events.</a></p>'}
+            ${results.events.length ? '' : `<p>No event matches that search. <a href="${universityData.root_url}/events">View all events.</a></p>`}
               ${results.events.map(result => `
                       <div class="event-summary">
                           <a class="event-summary__date event-summary__date--blue t-center" href="${result.permalink}">
