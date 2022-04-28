@@ -44,7 +44,8 @@ function university_search_results($data) {
         if (get_post_type() == 'program') {
             array_push($results['programs'], array(
                 'title' => get_the_title(),
-                'permalink' => get_the_permalink()
+                'permalink' => get_the_permalink(),
+                'id' => get_the_ID()
             ));
         }
 
@@ -67,6 +68,46 @@ function university_search_results($data) {
             ));
         }
 
+    }
+
+    // When program(s) is(are) included as part of keyword search results,
+    // populate $results['professors'] with professor(s) assoicated with each program.
+    if ($results['programs']) {
+        $programsMetaQuery = array('relation' => 'OR');
+
+        // Get program id(s) that resulted from keyword search
+        foreach($results['programs'] as $program) {
+            array_push($programsMetaQuery, array(
+                'key' => 'related_programs',
+                'compare' => 'LIKE',
+                'value' => '"' . $program['id'] . '"'
+            ));
+        }
+
+        // Get professor(s) related to the program(s)
+        $programRelationshipQuery = new WP_Query(array(
+            'post_type' => 'professor',
+            'meta_query' => $programsMetaQuery
+            )
+        );
+
+        // Populate $results['professors] data by looping through
+        while($programRelationshipQuery->have_posts()) {
+            $programRelationshipQuery->the_post();
+
+            if (get_post_type() == 'professor') {
+                array_push($results['professors'], array(
+                    'title' => get_the_title(),
+                    'permalink' => get_the_permalink(),
+                    'image' => get_the_post_thumbnail_url(0, 'professorLandscape')
+                ));
+            }
+
+
+        }
+
+        // Delete any duplicate result that can occur when the related search result contains the same search keyword
+        $results['professors'] = array_values(array_unique($results['professors'], SORT_REGULAR));
     }
 
     return $results;
