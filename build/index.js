@@ -6182,7 +6182,7 @@ class Search {
 
   keyPressDispatcher(e) {
     // if s is pressed down and overlay is not open and any other input/textarea are not focused
-    if (e.key === 's' && !this.isOverlayOpen && !document.querySelectorAll('input', 'textarea').activeElement) {
+    if (e.key === 's' && !this.isOverlayOpen && document.activeElement.tagName != "INPUT" && document.activeElement.tagName != "TEXTAREA") {
       this.openOverlay();
     } else if (e.key === 'Escape' && this.isOverlayOpen) {
       // if escape is pressed down while overlay is open

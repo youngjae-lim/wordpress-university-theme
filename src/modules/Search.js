@@ -64,7 +64,8 @@ class Search {
     if (
       e.key === 's' &&
       !this.isOverlayOpen &&
-      !document.querySelectorAll('input', 'textarea').activeElement
+      document.activeElement.tagName != "INPUT" &&
+      document.activeElement.tagName != "TEXTAREA"
     ) {
       this.openOverlay()
     } else if (e.key === 'Escape' && this.isOverlayOpen) {

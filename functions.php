@@ -21,7 +21,7 @@ function pageBanner($args = null)
     }
 
     if (!$args['photo']) {
-        if (get_field('page_banner_background_image') and !is_archive() and !is_home()) {
+        if (get_field('page_banner_background_image') and !is_archive() and !is_home() and !is_search()) {
             $args['photo'] = get_field('page_banner_background_image')['sizes']['pageBanner'];
         } else {
             $args['photo'] = get_theme_file_uri('/images/ocean.jpg');
