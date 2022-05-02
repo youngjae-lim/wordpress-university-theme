@@ -6157,7 +6157,7 @@ class MyNotes {
 
 
   findNearestParentLi(el) {
-    let thisNote = el;
+    let thisNote = el; // Step up the hierarchy until we find the parent li element
 
     while (thisNote.tagName != 'LI') {
       thisNote = thisNote.parentElement;
@@ -6226,7 +6226,7 @@ class MyNotes {
         thisNote.remove();
       }, 401);
 
-      if (response.data.userNoteCount < 5) {
+      if (response.data.userNoteCount <= 49) {
         document.querySelector('.note-limit-message').classList.remove('active');
       }
     } catch (e) {
@@ -6295,6 +6295,7 @@ class MyNotes {
           newlyCreated.style.removeProperty('height');
         }, 450);
       } else {
+        // When a user reached post per user limit, show a helpful message
         document.querySelector('.note-limit-message').classList.add('active');
       }
     } catch (e) {

@@ -2,9 +2,14 @@
 
 require get_theme_file_path('/includes/search-route.php');
 
+// Add any custom data to REST API server response to be sent to the client
 function university_custom_rest() {
     register_rest_field('post', 'authorName', array(
         'get_callback' => function() { return get_the_author(); }
+    ));
+
+    register_rest_field('note', 'userNoteCount', array(
+        'get_callback' => function() { return count_user_posts(get_current_user_id(), 'note'); }
     ));
 }
 
@@ -158,9 +163,14 @@ function ourLoginTitle() {
 add_filter('login_headertitle', 'ourLoginTitle');
 
 
-// Sanitize the note title and content and force note posts to be private
-function makeNotePrivate($data) {
+// Limit post per user and sanitize the note title and content and force note posts to be private
+function makeNotePrivate($data, $postarr) {
     if ($data['post_type'] == 'note') {
+        // Check post per user limit only for note post type and for creating a new note
+        if (count_user_posts(get_current_user_id(), 'note') >= 50 and !$postarr['ID']) {
+            die("You have reached your note limit.");
+        }
+
         $data['post_content'] = sanitize_textarea_field($data['post_content']);
         $data['post_title'] = sanitize_text_field($data['post_title']);
     }
@@ -172,4 +182,7 @@ function makeNotePrivate($data) {
     return $data;
 }
 
-add_filter('wp_insert_post_data', 'makeNotePrivate');
+// Note that this will run not only when creating a note, but also when updating a note
+// 10 = priority(default)
+// 2 = # of accepted arguments in the callback function
+add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2);
