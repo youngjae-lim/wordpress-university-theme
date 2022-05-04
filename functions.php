@@ -1,6 +1,8 @@
 <?php
 
+// Import custom REST API endpoints
 require get_theme_file_path('/includes/search-route.php');
+require get_theme_file_path('/includes/like-route.php');
 
 // Add any custom data to REST API server response to be sent to the client
 function university_custom_rest() {
