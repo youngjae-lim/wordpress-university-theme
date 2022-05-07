@@ -188,3 +188,13 @@ function makeNotePrivate($data, $postarr) {
 // 10 = priority(default)
 // 2 = # of accepted arguments in the callback function
 add_filter('wp_insert_post_data', 'makeNotePrivate', 10, 2);
+
+// Uncomment the line below when deploying your WP using All-in-One WP Migration plugin
+// to exclude node_modules directory from being exported
+// function ignoreCertainFiles($exclude_filters) {
+//     $exclude_filters[] = 'themes/university-theme/node_modules';
+
+//     return $exclude_filters;
+// }
+
+// add_filter('ai1wm_exclude_content_from_export', 'ignoreCertainFiles');
